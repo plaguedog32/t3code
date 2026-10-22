@@ -6,6 +6,22 @@ Works with your subscriptions on Claude Code, Codex, Cursor, Grok Build, OpenCod
 
 The fork's changes live on the [`fork/copilot-provider`](https://github.com/plaguedog32/t3code/tree/fork/copilot-provider) branch.
 
+## "Why fork it?"
+
+Because a lot of businesses only get one AI subscription, and it's GitHub Copilot.
+
+Copilot is the one many companies already pay for. It comes with the enterprise agreement, the admin controls, and the data handling terms legal already signed off on. Claude Code, Codex, and the rest often aren't on the approved list. Upstream T3 Code only reaches Copilot through a generic adapter, so on those machines there was nothing first-class for it to drive.
+
+Security teams also want to know where data goes. Upstream sends usage analytics and connection traces to T3 Code's servers by default, and T3 Connect routes traffic through a hosted relay. Each can be turned off with environment variables, but "remember to set these on every machine" is a hard sell in a security review. One missed variable and data leaves the network.
+
+So this fork:
+
+- **Makes Copilot first-class.** Your Copilot plan is the only subscription you need, with its usage and quota limits visible in the app.
+- **Hard-codes the off switches.** Telemetry and T3 Connect are disabled in the source, so no config, build key, or environment variable can turn them back on. "Is it off?" has one answer, and you can check it in one file.
+- **Keeps traffic predictable.** The app talks to your agents, the machines you connect it to, and update checks you can turn off. The full list is [below](#nothing-phones-home).
+
+Everything T3 Code is good at, minus the parts that make it hard to approve.
+
 ## What's different
 
 ### GitHub Copilot, as a first-class provider
