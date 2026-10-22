@@ -95,6 +95,15 @@
         { "range": ">=1.4.2", "status": "supported" },
         { "range": "<1.4.2", "status": "unknown" }
       ]
+    },
+    {
+      "driver": "copilot",
+      "t3CodeRange": ">=0.1.0",
+      "recommendedRange": ">=1.0.101",
+      "ranges": [
+        { "range": ">=1.0.101", "status": "supported" },
+        { "range": "<1.0.101", "status": "unknown" }
+      ]
     }
   ],
   "currentModels": {

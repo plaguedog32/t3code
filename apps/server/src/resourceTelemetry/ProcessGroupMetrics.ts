@@ -31,6 +31,7 @@ const PROVIDER_GROUPS: ReadonlyArray<readonly [RegExp, string]> = [
   [/opencode/, "opencode"],
   [/grok/, "grok"],
   [/antigravity|gemini/, "antigravity"],
+  [/copilot/, "copilot"],
 ];
 const OTHER_GROUPS: ReadonlyArray<readonly [RegExp, string]> = [
   [/chrom/, "browser"],

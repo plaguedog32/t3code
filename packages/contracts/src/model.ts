@@ -155,6 +155,8 @@ export const DEFAULT_MODEL_BY_PROVIDER: Partial<Record<ProviderDriverKind, strin
   [PI_DRIVER_KIND]: "default",
   [OPENCODE_DRIVER_KIND]: "openai/gpt-5",
   [ProviderDriverKind.make("antigravity")]: ANTIGRAVITY_DEFAULT_MODEL,
+  // Copilot's own "let Copilot pick" model id.
+  [ProviderDriverKind.make("copilot")]: "auto",
 };
 
 export const DEFAULT_TEXT_GENERATION_MODEL_BY_PROVIDER: Partial<
@@ -203,4 +205,5 @@ export const PROVIDER_DISPLAY_NAMES: Partial<Record<ProviderDriverKind, string>>
   [ACP_REGISTRY_DRIVER_KIND]: "ACP Registry",
   [PI_DRIVER_KIND]: "Pi",
   [OPENCODE_DRIVER_KIND]: "OpenCode",
+  [ProviderDriverKind.make("copilot")]: "GitHub Copilot",
 };

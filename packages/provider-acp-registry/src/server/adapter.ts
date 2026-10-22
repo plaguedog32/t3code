@@ -13,7 +13,7 @@ import {
   copilotClientCapabilitiesMeta,
   extractCopilotSubagentUpdate,
   makeCopilotSubagentRouting,
-} from "./copilotAcp.ts";
+} from "@t3tools/provider-copilot/server/acp";
 import { defaultInstanceIdForDriver, ProviderDriverKind } from "@t3tools/contracts";
 import { readCustomModelEntries } from "@t3tools/shared/model";
 import { AcpRegistrySettings } from "../settings.ts";

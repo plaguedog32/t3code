@@ -15,6 +15,7 @@ const VENDOR_CATALOG_DRIVERS: ReadonlySet<string> = new Set([
   "cursor",
   "grok",
   "antigravity",
+  "copilot",
 ]);
 
 export interface ProviderDimensions {
