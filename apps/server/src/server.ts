@@ -857,6 +857,8 @@ const layerMakeServer = Layer.unwrap(
         }
         yield* ServerActivation.forkParked(
           Effect.gen(function* () {
+            // Without T3 Connect there is no tunnel to recover or register.
+            if (!hasCloudPublicConfig) return;
             if (!cleanupBeforeActivation) {
               yield* Effect.addFinalizer(() => releaseManagedTunnel);
             }

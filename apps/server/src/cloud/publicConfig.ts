@@ -4,6 +4,7 @@ import {
   DEFAULT_HOSTED_APP_URL,
 } from "@t3tools/shared/connectAuth";
 import { clerkFrontendApiUrlFromPublishableKey } from "@t3tools/shared/relayAuth";
+import { T3_CONNECT_ENABLED } from "@t3tools/shared/forkPolicy";
 import { isRelayTracingEnabled } from "@t3tools/shared/otelEnvironment";
 import { normalizeSecureRelayUrl } from "@t3tools/shared/relayUrl";
 import * as Config from "effect/Config";
@@ -107,7 +108,21 @@ export function makeRelayUrlConfig(fallback = buildTimeRelayUrl) {
   );
 }
 
-export const relayUrlConfig = makeRelayUrlConfig();
+const connectDisabledConfig = Config.String("T3CODE_RELAY_URL").pipe(
+  Config.withDefault(""),
+  Config.mapEffect(() =>
+    Effect.fail(
+      new Config.ConfigError(
+        new Schema.SchemaError(
+          new SchemaIssue.InvalidValue({ message: "T3 Connect is disabled in this build." }),
+        ),
+      ),
+    ),
+  ),
+);
+
+// Every relay request resolves this first, so it alone keeps the server off the relay.
+export const relayUrlConfig = T3_CONNECT_ENABLED ? makeRelayUrlConfig() : connectDisabledConfig;
 
 export const hostedAppUrlConfig = makePublicValueConfig(
   "T3CODE_HOSTED_APP_URL",
@@ -205,6 +220,7 @@ export function makeCloudCliOAuthConfig({
 export const cloudCliOAuthConfig = makeCloudCliOAuthConfig();
 
 export const hasCloudPublicConfig = Boolean(
+  T3_CONNECT_ENABLED &&
   (normalizeSecureRelayUrl(process.env.T3CODE_RELAY_URL ?? "") ?? buildTimeRelayUrl) &&
   (process.env.T3CODE_CLERK_PUBLISHABLE_KEY?.trim() || buildTimeClerkPublishableKey) &&
   (process.env.T3CODE_CLERK_CLI_OAUTH_CLIENT_ID?.trim() || buildTimeClerkCliOAuthClientId),

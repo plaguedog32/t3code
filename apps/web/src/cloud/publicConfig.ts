@@ -2,6 +2,7 @@ import {
   clerkFrontendApiHostnameFromPublishableKey,
   relayClerkTokenOptions,
 } from "@t3tools/shared/relayAuth";
+import { T3_CONNECT_ENABLED, TELEMETRY_ENABLED } from "@t3tools/shared/forkPolicy";
 import { normalizeSecureRelayUrl } from "@t3tools/shared/relayUrl";
 import * as Schema from "effect/Schema";
 
@@ -40,7 +41,16 @@ function normalizeSecureUrl(value: string): string | null {
   }
 }
 
+const DISABLED_CLOUD_PUBLIC_CONFIG: CloudPublicConfig = {
+  clerkPublishableKey: null,
+  clerkJwtTemplate: null,
+  relayUrl: null,
+  relayTracing: { tracesUrl: null, tracesDataset: null, tracesToken: null },
+};
+
 export function resolveCloudPublicConfig(): CloudPublicConfig {
+  // Every Connect surface and relay trace reads this, so it alone hides them.
+  if (!T3_CONNECT_ENABLED) return DISABLED_CLOUD_PUBLIC_CONFIG;
   return {
     clerkPublishableKey: trimNonEmpty(
       import.meta.env.VITE_CLERK_PUBLISHABLE_KEY as string | undefined,
@@ -63,6 +73,7 @@ export function resolveCloudPublicConfig(): CloudPublicConfig {
 
 export function resolveRelayTracingConfig() {
   // The relay exporter is created during module initialization, so this must be synchronous.
+  if (!TELEMETRY_ENABLED) return null;
   if (
     typeof window !== "undefined" &&
     window.desktopBridge?.getRelayTelemetryEnabled?.() === false

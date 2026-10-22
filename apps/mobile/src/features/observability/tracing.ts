@@ -1,4 +1,5 @@
 import Constants from "expo-constants";
+import { TELEMETRY_ENABLED } from "@t3tools/shared/forkPolicy";
 import * as RelayTracing from "@t3tools/shared/relayTracing";
 
 import { hasTracingPublicConfig, resolveCloudPublicConfig } from "../cloud/publicConfig";
@@ -15,6 +16,7 @@ export interface TracingResource {
 }
 
 export function resolveTracingConfig(): TracingConfig | null {
+  if (!TELEMETRY_ENABLED) return null;
   const config = resolveCloudPublicConfig();
   if (!hasTracingPublicConfig(config)) {
     return null;

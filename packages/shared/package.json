@@ -71,6 +71,10 @@
       "types": "./src/observability.ts",
       "import": "./src/observability.ts"
     },
+    "./forkPolicy": {
+      "types": "./src/forkPolicy.ts",
+      "import": "./src/forkPolicy.ts"
+    },
     "./otelEnvironment": {
       "types": "./src/otelEnvironment.ts",
       "import": "./src/otelEnvironment.ts"
